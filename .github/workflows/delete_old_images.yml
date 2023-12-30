@@ -1,0 +1,21 @@
+name: Delete Old Images
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  delete_old_images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Crate
+        uses: actions/checkout@v2
+      - name: Set Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Run Delete Old Images
+        run: cargo run --release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
