@@ -3,7 +3,7 @@ name: Delete Old Images
 on:
   push:
     branches:
-      - main
+      - test_workflows
 
 jobs:
   delete_old_images:
