@@ -1,8 +1,9 @@
 name: Delete Old Images
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
+  push:
+    branches:
+      - main
 
 jobs:
   delete_old_images:
