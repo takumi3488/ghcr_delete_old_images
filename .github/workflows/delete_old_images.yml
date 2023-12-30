@@ -11,10 +11,9 @@ env:
 
 jobs:
   delete_old_images:
+    runs-on: ubuntu-latest
     permissions:
       packages: write
-      contents: read
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Delete Old Images
