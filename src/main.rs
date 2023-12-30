@@ -52,6 +52,7 @@ async fn main() {
         .await
         .unwrap();
     println!("{}", response.status());
+    println!("{}", response.text().await.unwrap());
     let packages: Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
 
     for package in packages.as_array().unwrap() {
