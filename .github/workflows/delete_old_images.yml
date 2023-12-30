@@ -24,6 +24,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Delete Old Images
+        # run: |
+        #   cargo build --release && \
+        #   ./target/release/ghcr_delete_old_images
         run: |
-          cargo build --release && \
-          ./target/release/ghcr_delete_old_images
+          gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" "/user/packages?package_type=container"
