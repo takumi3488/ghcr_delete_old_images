@@ -1,6 +1,6 @@
 use std::env;
 
-use reqwest::{header, Client};
+use reqwest::{header, Client, Response};
 use serde_json::Value;
 
 const BASE_URL: &'static str = "https://api.github.com";
@@ -26,23 +26,17 @@ impl GithubClient {
         Self { client }
     }
 
-    async fn get(&self, path: &str) -> Result<String, reqwest::Error> {
+    async fn get(&self, path: &str) -> Result<Response, reqwest::Error> {
         self.client
             .get(format!("{}{}", BASE_URL, path))
             .send()
             .await
-            .unwrap()
-            .text()
-            .await
     }
 
-    async fn delete(&self, path: &str) -> Result<String, reqwest::Error> {
+    async fn delete(&self, path: &str) -> Result<Response, reqwest::Error> {
         self.client
             .delete(format!("{}{}", BASE_URL, path))
             .send()
-            .await
-            .unwrap()
-            .text()
             .await
     }
 }
@@ -57,8 +51,8 @@ async fn main() {
         .get("/user/packages?package_type=container&per_page=100")
         .await
         .unwrap();
-    println!("{}", response);
-    let packages: Value = serde_json::from_str(&response).unwrap();
+    println!("{}", response.status());
+    let packages: Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
 
     for package in packages.as_array().unwrap() {
         // パッケージのバージョン一覧の取得
@@ -69,7 +63,7 @@ async fn main() {
             ))
             .await
             .unwrap();
-        let versions_res: Value = serde_json::from_str(&response).unwrap();
+        let versions_res: Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
         let mut versions = versions_res.as_array().unwrap().clone();
 
         // 更新日時でソート
