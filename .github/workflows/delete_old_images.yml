@@ -5,20 +5,16 @@ on:
     branches:
       - test_workflows
 
+env:
+  CARGO_TERM_COLOR: always
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   delete_old_images:
     permissions:
       packages: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Crate
-        uses: actions/checkout@v2
-      - name: Set Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Run Delete Old Images
-        run: cargo run --release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+      - name: Delete Old Images
+        run: cargo run --release --verbose
