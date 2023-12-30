@@ -44,6 +44,9 @@ impl GithubClient {
 #[tokio::main]
 async fn main() {
     let gh_token = env::var("GH_TOKEN").expect("GH_TOKEN is not set");
+    if gh_token.contains(" ") {
+        panic!("GH_TOKEN contains space");
+    }
     let client = GithubClient::new(gh_token);
 
     // パッケージ一覧の取得
