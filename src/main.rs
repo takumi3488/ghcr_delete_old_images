@@ -52,7 +52,6 @@ async fn main() {
         .await
         .unwrap();
     let packages: Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
-    println!("{}", packages);
 
     for package in packages.as_array().unwrap() {
         // パッケージのバージョン一覧の取得
@@ -84,6 +83,5 @@ async fn main() {
                 .await
                 .expect(format!("failed to delete {}", version["id"].as_u64().unwrap()).as_str());
         }
-        break;
     }
 }
