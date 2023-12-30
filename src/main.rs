@@ -48,11 +48,9 @@ async fn main() {
 
     // パッケージ一覧の取得
     let response = client
-        .get("/user/packages?package_type=container&per_page=100")
+        .get("/user/packages?package_type=container")
         .await
         .unwrap();
-    println!("{}", response.text().await.unwrap());
-    return;
     let packages: Value = serde_json::from_str(&response.text().await.unwrap()).unwrap();
 
     for package in packages.as_array().unwrap() {
