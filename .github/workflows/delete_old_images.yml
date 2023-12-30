@@ -1,9 +1,8 @@
 name: Delete Old Images
 
 on:
-  push:
-    branches:
-      - test_workflows
+  schedule:
+    - cron: '0 0 * * *'
 
 env:
   CARGO_TERM_COLOR: always
