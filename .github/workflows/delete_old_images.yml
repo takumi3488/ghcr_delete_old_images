@@ -4,18 +4,21 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 1
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 jobs:
   delete_old_images:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
-      - name: Checkout Crate
-        uses: actions/checkout@v2
-      - name: Set Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Run Delete Old Images
-        run: cargo run --release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release
+      - name: Delete old images
+        run: ./target/release/ghcr_delete_old_images
