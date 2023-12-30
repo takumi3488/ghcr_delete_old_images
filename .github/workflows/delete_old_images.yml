@@ -18,4 +18,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Delete Old Images
-        run: cargo build run
+        run: cargo run
