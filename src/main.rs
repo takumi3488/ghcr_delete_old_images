@@ -49,7 +49,9 @@ impl GithubClient {
 
 #[tokio::main]
 async fn main() {
-    let client = GithubClient::new(env::var("GH_TOKEN").expect("GH_TOKEN is not set"));
+    let gh_token = env::var("GH_TOKEN").expect("GH_TOKEN is not set");
+    println!("GH_TOKEN: {}", gh_token);
+    let client = GithubClient::new(gh_token);
 
     // パッケージ一覧の取得
     let response = client
