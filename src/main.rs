@@ -56,6 +56,7 @@ async fn main() {
         .get("/user/packages?package_type=container&per_page=100")
         .await
         .unwrap();
+    println!("{}", response);
     let packages: Value = serde_json::from_str(&response).unwrap();
 
     for package in packages.as_array().unwrap() {
