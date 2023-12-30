@@ -44,9 +44,6 @@ impl GithubClient {
 #[tokio::main]
 async fn main() {
     let gh_token = env::var("GH_TOKEN").expect("GH_TOKEN is not set");
-    if gh_token.contains(" ") {
-        panic!("GH_TOKEN contains space");
-    }
     let client = GithubClient::new(gh_token);
 
     // パッケージ一覧の取得
@@ -58,7 +55,7 @@ async fn main() {
 
     for package in packages.as_array().unwrap() {
         // パッケージのバージョン一覧の取得
-        let response = client
+        let response: Response = client
             .get(&format!(
                 "/user/packages/container/{}/versions",
                 package["name"].as_str().unwrap()
