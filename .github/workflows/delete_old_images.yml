@@ -7,7 +7,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   delete_old_images:
@@ -17,4 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Delete Old Images
-        run: cargo run --release --verbose
+        run: |
+          cargo build --release && \
+          GH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          ./target/release/dhcr_delete_old_images
