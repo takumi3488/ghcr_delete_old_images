@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 reqwest = { version = "0.13.0", features = [
-    "rustls-tls",
+    "rustls",
     "json",
 ], default-features = false }
 serde = { version = "1.0.193", features = ["derive"] }
